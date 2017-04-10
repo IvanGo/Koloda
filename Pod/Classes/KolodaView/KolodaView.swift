@@ -564,6 +564,26 @@ open class KolodaView: UIView, DraggableCardDelegate {
         return visibleCards.count > 0
     }
     
+    public func moveTo(index: Int) {
+        
+        guard let numberOfCards = dataSource?.kolodaNumberOfCards(self), numberOfCards > 0 else {
+            clear()
+            return
+        }
+        
+        clear()
+        currentCardIndex = index
+        
+        var insertionIndexes = [currentCardIndex]
+        for i in 1..<countOfVisibleCards {
+            if currentCardIndex + i < numberOfCards {
+                insertionIndexes.append(currentCardIndex + i)
+            }
+        }
+        
+        _ = insertVisibleCardsWithIndexes(insertionIndexes)
+    }
+    
     // MARK: Cards managing - Insertion
     
     private func insertVisibleCardsWithIndexes(_ visibleIndexes: [Int]) -> [DraggableCardView] {
